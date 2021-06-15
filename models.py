@@ -1,5 +1,6 @@
-from .app import db
+from app import db
 from datetime import datetime
+import secrets
 
 class Task(db.Model):
 	"""Tasks for the To Do list."""

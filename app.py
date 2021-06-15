@@ -5,7 +5,8 @@ from flask import jsonify
 from datetime import datetime
 import json
 from flask import request, Response
-from .models import Task, User
+import models
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '')
@@ -17,14 +18,14 @@ INCOMING_DATE_FMT = '%d/%m/%Y %H:%M:%S'
 def hello_world():
     """Print 'Hello, world!' as the response body."""
     return 'Hello, world!'
-
+	
 
 @app.route('/api/v1/accounts/<username>/tasks', methods=['POST'])
 def create_task(username):
     """Create a task for one user."""
-    user = User.query.filter_by(username=username).first()
+    user = models.User.query.filter_by(username=username).first()
     if user:
-        task = Task(
+        task = models.Task()(
             name=request.form['name'],
             note=request.form['note'],
             creation_date=datetime.now(),
